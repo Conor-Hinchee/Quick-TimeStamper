@@ -1,4 +1,4 @@
-import { App, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, MarkdownView } from 'obsidian';
 
 interface QuickTimestamperSettings {
     mySetting: string;
@@ -10,6 +10,24 @@ const DEFAULT_SETTINGS: QuickTimestamperSettings = {
 
 export default class QuickTimestamper extends Plugin {
     settings: QuickTimestamperSettings;
+
+    // async onload() {
+    //     // await this.loadSettings();
+
+    //     // This adds a settings tab so the user can configure various aspects of the plugin
+    //     // this.addSettingTab(new SampleSettingTab(this.app, this));
+
+    //     // Register the 'log-time' Markdown code block processor
+    //     this.registerMarkdownCodeBlockProcessor("log-time", (source, el, ctx) => {
+    //         const button = el.createEl("button", { text: "Log Time" });
+    //         const output = el.createEl("p");
+
+    //         button.addEventListener("click", () => {
+    //             const now = new Date();
+    //             output.textContent = `Logged at: ${now.toLocaleString()}`;
+    //         });
+    //     });
+    // }
 
     async onload() {
         // await this.loadSettings();
@@ -24,10 +42,24 @@ export default class QuickTimestamper extends Plugin {
 
             button.addEventListener("click", () => {
                 const now = new Date();
-                output.textContent = `Logged at: ${now.toLocaleString()}`;
+                const timestamp = `Logged at: ${now.toLocaleString()}`;
+                output.textContent = timestamp;
+
+                // Get the active Markdown view
+                const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+
+                if (view) {
+                    // Get the editor
+                    const editor = view.editor;
+
+                    // Insert the timestamp at the current cursor position
+                    editor.replaceRange(timestamp, editor.getCursor());
+                }
             });
         });
     }
+
+    
 
     onunload() {
 
