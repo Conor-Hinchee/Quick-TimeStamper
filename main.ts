@@ -52,8 +52,13 @@ export default class QuickTimestamper extends Plugin {
                     // Get the editor
                     const editor = view.editor;
 
-                    // Insert the timestamp at the current cursor position
-                    editor.replaceRange(timestamp, editor.getCursor());
+                    // Get the position of the code block
+                    const sectionInfo = ctx.getSectionInfo(el);
+                    const codeBlockStart = sectionInfo ? sectionInfo.lineStart : 0;
+                    const codeBlockEnd = sectionInfo ? sectionInfo.lineEnd : 0;
+
+                    // Insert the timestamp after the code block
+                    editor.replaceRange("\n" + timestamp, {line: codeBlockStart, ch: codeBlockEnd});
                 }
             });
         });
