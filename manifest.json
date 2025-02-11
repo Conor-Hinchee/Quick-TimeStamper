@@ -3,7 +3,7 @@
 	"name": "Quick TimeStamper",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Adds a button that when clicked logs the timestamp.",
+	"description": "Inserts a button to quickly insert a timestamp in the current note.",
 	"author": "Conor Hinchee",
 	"authorUrl": "https://conorhinchee.com",
 	"isDesktopOnly": false

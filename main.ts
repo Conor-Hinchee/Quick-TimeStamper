@@ -1,42 +1,10 @@
-import { App, Plugin, PluginSettingTab, Setting, MarkdownView } from 'obsidian';
-
-interface QuickTimestamperSettings {
-    mySetting: string;
-}
-
-const DEFAULT_SETTINGS: QuickTimestamperSettings = {
-    mySetting: 'default'
-}
+import { Plugin, MarkdownView } from 'obsidian';
 
 export default class QuickTimestamper extends Plugin {
-    settings: QuickTimestamperSettings;
 
-    // async onload() {
-    //     // await this.loadSettings();
+    onload() {
 
-    //     // This adds a settings tab so the user can configure various aspects of the plugin
-    //     // this.addSettingTab(new SampleSettingTab(this.app, this));
-
-    //     // Register the 'log-time' Markdown code block processor
-    //     this.registerMarkdownCodeBlockProcessor("log-time", (source, el, ctx) => {
-    //         const button = el.createEl("button", { text: "Log Time" });
-    //         const output = el.createEl("p");
-
-    //         button.addEventListener("click", () => {
-    //             const now = new Date();
-    //             output.textContent = `Logged at: ${now.toLocaleString()}`;
-    //         });
-    //     });
-    // }
-
-    async onload() {
-        // await this.loadSettings();
-
-        // This adds a settings tab so the user can configure various aspects of the plugin
-        // this.addSettingTab(new SampleSettingTab(this.app, this));
-
-        // Register the 'log-time' Markdown code block processor
-        this.registerMarkdownCodeBlockProcessor("log-time", (source, el, ctx) => {
+        this.registerMarkdownCodeBlockProcessor("quick-timestamp-button", (source, el, ctx) => {
             const button = el.createEl("button", { text: "Log Time" });
             const output = el.createEl("p");
 
@@ -45,62 +13,19 @@ export default class QuickTimestamper extends Plugin {
                 const timestamp = `Logged at: ${now.toLocaleString()}`;
                 output.textContent = timestamp;
 
-                // Get the active Markdown view
                 const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 
                 if (view) {
-                    // Get the editor
                     const editor = view.editor;
-
-                    // Get the position of the code block
+                    // // Get the position of the code block
                     const sectionInfo = ctx.getSectionInfo(el);
-                    const codeBlockStart = sectionInfo ? sectionInfo.lineStart : 0;
-                    const codeBlockEnd = sectionInfo ? sectionInfo.lineEnd : 0;
-
-                    // Insert the timestamp after the code block
-                    editor.replaceRange("\n" + timestamp, {line: codeBlockStart, ch: codeBlockEnd});
+                    const endLine = sectionInfo?.lineStart || 0;
+                    // REPLACE THE BUTTON WITH THE TIMESTAMP
+                    editor.setLine(endLine, timestamp);
+                    // replace the line below the button as well
+                    editor.setLine(endLine + 1, "");
                 }
             });
         });
-    }
-
-    
-
-    onunload() {
-
-    }
-
-    // async loadSettings() {
-    //     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-    // }
-
-    // async saveSettings() {
-    //     await this.saveData(this.settings);
-    // }
-}
-
-class SampleSettingTab extends PluginSettingTab {
-    plugin: QuickTimestamper;
-
-    constructor(app: App, plugin: QuickTimestamper) {
-        super(app, plugin);
-        this.plugin = plugin;
-    }
-
-    display(): void {
-        const {containerEl} = this;
-
-        containerEl.empty();
-
-        new Setting(containerEl)
-            .setName('Setting #1')
-            .setDesc('It\'s a secret')
-            .addText(text => text
-                .setPlaceholder('Enter your secret')
-                .setValue(this.plugin.settings.mySetting)
-                .onChange(async (value) => {
-                    this.plugin.settings.mySetting = value;
-                    // await this.plugin.saveSettings();
-                }));
     }
 }
