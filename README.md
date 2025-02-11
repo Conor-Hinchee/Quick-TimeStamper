@@ -21,15 +21,14 @@ Quick Time Stamper is an Obsidian plugin that lets you quickly insert a timestam
 
 ## Example
 
-Before clicking the button:
-````markdown
-```quick-timestamp-button
-```
-````
+Timestamp Button: 
+
+<img width="381" alt="Screenshot 2025-02-11 at 4 16 37 PM" src="https://github.com/user-attachments/assets/09913a1b-73f5-403c-a9e4-494f5cd8dbca" />
 
 
-after clicking the button:
-Logged at: 2/11/2025, 4:08:14 PM
+Timestamp Logged: 
+<img width="381" alt="Screenshot 2025-02-11 at 4 18 48 PM" src="https://github.com/user-attachments/assets/d96b24b1-65e7-417f-8c1e-78d97c5bac4a" />
+
 
 ## Future Plans
 
