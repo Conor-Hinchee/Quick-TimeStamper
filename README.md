@@ -27,6 +27,7 @@ Quick Time Stamper is an Obsidian plugin that lets you quickly insert a timestam
 
 
 **Timestamp Logged:** 
+
 <img width="381" alt="Screenshot 2025-02-11 at 4 18 48 PM" src="https://github.com/user-attachments/assets/d96b24b1-65e7-417f-8c1e-78d97c5bac4a" />
 
 
