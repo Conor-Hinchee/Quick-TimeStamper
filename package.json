@@ -1,6 +1,6 @@
 {
 	"name": "quick-timestamp-button",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Add a button to quickly insert a timestamp in the current note.",
 	"main": "main.js",
 	"scripts": {
