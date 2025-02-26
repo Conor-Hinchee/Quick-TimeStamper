@@ -4,7 +4,7 @@ export default class QuickTimestamper extends Plugin {
     onload() {
         this.registerMarkdownCodeBlockProcessor("quick-timestamp-button", (source, el, ctx) => {
             const container = el.createEl("div");
-            const button = container.createEl("button", { text: "Log Time" });
+            const button = container.createEl("button", { text: "🪵 Time" });
 
             button.addEventListener("click", async () => {
                 const now = new Date();
