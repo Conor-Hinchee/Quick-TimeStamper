@@ -1,38 +1,23 @@
 import { Plugin, MarkdownView } from 'obsidian';
 
 export default class QuickTimestamper extends Plugin {
-
     onload() {
         this.registerMarkdownCodeBlockProcessor("quick-timestamp-button", (source, el, ctx) => {
-            const button = el.createEl("button", { text: "Log Time" });
-            const output = el.createEl("p");
+            const container = el.createEl("div");
+            const button = container.createEl("button", { text: "Log Time" });
 
-            // Show existing timestamps from the source
-            if (source.trim()) {
-                output.textContent = source.trim();
-            }
-
-            button.addEventListener("click", () => {
+            button.addEventListener("click", async () => {
                 const now = new Date();
-                const timestamp = `Logged at: ${now.toLocaleString()}`;
-                output.textContent = timestamp;
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                const timestamp = `🪵 Logged at: ${hours}:${minutes}:${seconds}`;
 
                 const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-                
                 if (view) {
-                    const editor = view.editor;
-                    const sectionInfo = ctx.getSectionInfo(el);
-                    
-                    if (sectionInfo) {
-                        // Create a transaction to modify the document
-                        editor.transaction({
-                            changes: [{
-                                from: editor.offsetToPos(sectionInfo.lineStart),
-                                to: editor.offsetToPos(sectionInfo.lineEnd),
-                                text: "```quick-timestamp-button\n" + timestamp + "\n```"
-                            }]
-                        });
-                    }
+                    view.editor.replaceRange(timestamp, view.editor.getCursor());
+                    button.remove(); // Remove the button after logging the timestamp
                 }
             });
         });
