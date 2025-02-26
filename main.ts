@@ -21,7 +21,7 @@ export default class QuickTimestamper extends Plugin {
                     // Get the line number of the code block
                     const lineNumber = sectionInfo.lineStart;
                     // Create a new position object for the start of the next line
-                    const position = { line: lineNumber + 1, ch: 0 };
+                    const position = { line: lineNumber + 2, ch: 0 };
                     view.editor.replaceRange(timestamp + '\n', position);
                 } else {
                     console.log('not logging!!!')
