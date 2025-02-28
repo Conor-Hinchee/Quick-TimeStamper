@@ -1,7 +1,7 @@
 {
 	"id": "quick-timestamp-button",
 	"name": "Quick TimeStamper",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"minAppVersion": "0.15.0",
 	"description": "Add a button to quickly insert a timestamp in the current note.",
 	"author": "Conor Hinchee",
