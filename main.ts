@@ -7,7 +7,7 @@ export default class QuickTimestamper extends Plugin {
             const button = container.createEl("button", { text: "🪵 Time" });
 
             button.addEventListener("click", async () => {
-                console.log("QuickTimestamper clicked");
+                console.log("DEBUG ENABLED: QuickTimestamper clicked");
                 try {
                     const now = new Date();
                     const hours = String(now.getHours()).padStart(2, '0');
@@ -17,7 +17,7 @@ export default class QuickTimestamper extends Plugin {
                     const timestamp = `🪵 Logged at: ${hours}:${minutes}:${seconds}`;
                     const view = this.app.workspace.getActiveViewOfType(MarkdownView);
                     const sectionInfo = ctx.getSectionInfo(el);
-                    if (!view || !view.editor) {
+                    if (!view || !view.editor || !view.file) {
                         throw new Error("Markdown view or editor not found.");
                     }
 
@@ -27,9 +27,12 @@ export default class QuickTimestamper extends Plugin {
 
                     // Get the line number of the code block
                     const lineNumber = sectionInfo.lineStart;
-                    // Create a new position object for the start of the next line
                     const position = { line: lineNumber + 2, ch: 0 };
                     view.editor.replaceRange(timestamp + '\n', position);
+                    
+                    // Save the file
+                    await this.app.vault.modify(view.file, view.editor.getValue());
+
                 } catch (error) {
                     console.error("Error in QuickTimestamper:", error);
                 }
